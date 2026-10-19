@@ -1,0 +1,18 @@
+/* Named local mod selections and pre-launch conflict reports; contains no archive payloads. */
+(function(root){'use strict';const KEY='gta5.mods.profiles.v1',MAX=64;
+ const fail=m=>{throw Error(m)},name=n=>{if(typeof n!=='string'||!n.trim()||n.trim().length>80)fail('Use a profile name of 1–80 characters');return n.trim();};
+ function clean(p){if(!p||typeof p!=='object'||!p.preferences||typeof p.preferences!=='object')fail('Invalid mod profile');return {id:typeof p.id==='string'&&/^[a-z0-9_-]{1,80}$/i.test(p.id)?p.id:Date.now().toString(36)+'_'+Math.random().toString(36).slice(2,10),name:name(p.name),preferences:JSON.parse(JSON.stringify(p.preferences)),packages:(Array.isArray(p.packages)?p.packages:[]).slice(0,64).filter(x=>x&&/^[a-f0-9]{24}$/.test(x.id)).map(x=>({id:x.id,label:String(x.label||x.id).slice(0,128)})),updatedAt:Number.isFinite(p.updatedAt)?p.updatedAt:Date.now()};}
+ function list(storage=root.localStorage){const raw=storage.getItem(KEY);if(!raw)return [];if(raw.length>524288)fail('Profile storage exceeds 512 KiB');const rows=JSON.parse(raw);if(!Array.isArray(rows)||rows.length>MAX)fail('Invalid profile list');return rows.map(clean);}
+ function save(profile,storage=root.localStorage){const p=clean(profile),rows=list(storage),at=rows.findIndex(x=>x.id===p.id);if(at<0){if(rows.length>=MAX)fail('Save at most 64 profiles');rows.push(p);}else rows[at]=p;const json=JSON.stringify(rows);if(json.length>524288)fail('Profiles exceed 512 KiB');storage.setItem(KEY,json);return p;}
+ function remove(id,storage=root.localStorage){storage.setItem(KEY,JSON.stringify(list(storage).filter(p=>p.id!==id)));}
+ function encode(profile){return JSON.stringify({format:'grandv-mod-profile',version:1,profile:clean(profile)},null,2);}
+ function decode(text){if(typeof text!=='string'||text.length>524288)fail('Profile exceeds 512 KiB');const data=JSON.parse(text);if(data.format!=='grandv-mod-profile'||data.version!==1)fail('Unsupported profile format');const p=clean(data.profile);delete p.id;return clean(p);}
+ function analyse(records){const issues=[],owners=new Map(),hashes=new Map();const label=r=>r.label||r.manifest?.label||r.packName||r.id;
+  const claim=(key,r,what)=>{const previous=owners.get(key);if(previous&&previous.id!==r.id)issues.push({severity:'error',code:'CONFLICT',packages:[previous.id,r.id],message:label(previous)+' and '+label(r)+' both use '+what});else owners.set(key,r);};
+  for(const r of records){for(const kit of r.manifest?.compatibility?.modKits||[])claim('kit:'+kit.id,r,'tuning kit ID '+kit.id);claim('pack:'+String(r.packName).toLowerCase(),r,'package name '+r.packName);const targets=new Set([...(r.manifest?.replacementTargets||[]),...(r.textOverrides||[]).map(x=>x.path),...(r.binaryOverrides||[]).map(x=>x.path),...(r.replacementResources||[]).map(x=>x.archive+'/'+x.path)]);for(const target of targets)claim('target:'+target.toLowerCase(),r,target);
+   if(!r.kind||r.kind==='ped-addon')for(const model of r.models||[]){let h=0;for(const c of new TextEncoder().encode(model.toLowerCase())){h=(h+c)>>>0;h=(h+(h<<10))>>>0;h^=h>>>6;}h=(h+(h<<3))>>>0;h^=h>>>11;h=(h+(h<<15))>>>0;const old=hashes.get(h);if(old&&old.id!==r.id)issues.push({severity:'error',code:'MODEL_CONFLICT',packages:[old.id,r.id],message:label(old)+' and '+label(r)+' register the same model name/hash: '+model});else hashes.set(h,r);}
+   for(const w of r.manifest?.compatibility?.warnings||[])if(/DEPEND|EXTERNAL|MISSING_REFERENCE|UNKNOWN_TARGET/.test(w.code))issues.push({severity:'warning',code:w.code,packages:[r.id],message:label(r)+': '+w.message});
+  }return issues;
+ }
+ root.GTAModProfiles={list,save,remove,encode,decode,analyse};
+})(typeof window!=='undefined'?window:globalThis);

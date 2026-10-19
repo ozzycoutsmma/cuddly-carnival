@@ -1,0 +1,8 @@
+(()=>{'use strict';document.addEventListener('DOMContentLoaded',()=>{
+ const $=id=>document.getElementById(id),status=$('menyoo-xml-status');let pending=null;
+ function refresh(){const select=$('menyoo-xml-library');select.replaceChildren();for(const [i,p] of MenyooPresets.list().entries()){const o=document.createElement('option');o.value=i;o.textContent=p.kind+': '+p.name;select.append(o);} $('menyoo-xml-remove').disabled=!select.options.length;}
+ try{refresh();}catch(e){status.textContent=e.message;}
+ $('menyoo-xml-import').onchange=async e=>{pending=null;$('menyoo-xml-install').disabled=true;$('menyoo-xml-preview').textContent='';try{const file=e.target.files[0];e.target.value='';if(!file)return;if(file.size>524288)throw Error('XML exceeds 512 KiB');pending=MenyooPresets.parse(await file.text(),file.name);$('menyoo-xml-preview').textContent=pending.kind+': '+pending.name+'\n'+pending.steps.filter(s=>s.code===120).length+' entities; '+pending.steps.length+' operations\n'+(pending.warnings.join('\n')||'All supplied properties supported');$('menyoo-xml-install').disabled=false;status.textContent='Review omitted properties, then install.';}catch(error){status.textContent=error.message;}};
+ $('menyoo-xml-install').onclick=()=>{try{if(!pending)return;MenyooPresets.save(pending);refresh();status.textContent='Installed '+pending.name+'. Restart the game to load the library.';pending=null;$('menyoo-xml-install').disabled=true;}catch(e){status.textContent=e.message;}};
+ $('menyoo-xml-remove').onclick=()=>{try{MenyooPresets.remove(Number($('menyoo-xml-library').value));refresh();status.textContent='Preset removed; restart the game to update its menu.';}catch(e){status.textContent=e.message;}};
+});})();
