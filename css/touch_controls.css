@@ -1,0 +1,203 @@
+#touch-controls { --touch-size:var(--touch-user-size,1); --touch-opacity:.65; position:fixed; inset:0; z-index:12; pointer-events:none; opacity:var(--touch-opacity); font:600 14px system-ui,sans-serif; color:#fff; }
+#touch-controls[hidden],#touch-toolbar[hidden] { display:none; }
+#touch-controls button,#touch-controls .touch-stick { pointer-events:auto; touch-action:none; user-select:none; -webkit-user-select:none; -webkit-touch-callout:none; border:2px solid #a7c98c; background:#18251dcc; color:#fff; }
+#touch-controls button { width:calc(44px * var(--touch-size)); height:calc(44px * var(--touch-size)); border-radius:50%; font:inherit; padding:0; }
+#touch-controls .pressed { background:#62963edb; }
+.touch-stick { position:absolute; bottom:max(18px,env(safe-area-inset-bottom)); width:calc(clamp(96px,18vw,130px) * var(--touch-size)); aspect-ratio:1; border-radius:50%; }
+.touch-left { left:max(18px,env(safe-area-inset-left)); }.touch-right { right:max(18px,env(safe-area-inset-right)); }
+.touch-stick span { position:absolute; width:40%; height:40%; top:50%; left:50%; border-radius:50%; background:#a7c98c99; transform:translate(-50%,-50%); pointer-events:none; }.touch-stick b { position:absolute; top:40%; width:100%; text-align:center; pointer-events:none; }
+.touch-shoulders { position:absolute; left:8%; right:8%; top:max(50px,env(safe-area-inset-top)); display:flex; gap:10px; }.touch-shoulders button:nth-child(3) { margin-left:auto; }
+.touch-dpad,.touch-face { position:absolute; display:grid; grid-template-columns:repeat(3,calc(44px * var(--touch-size))); grid-template-rows:repeat(3,calc(44px * var(--touch-size))); gap:1px; top:38%; }
+.touch-dpad { left:25%; }.touch-face { right:25%; }
+.touch-dpad button:nth-child(1),.touch-face button:nth-child(1) { grid-column:2; }.touch-dpad button:nth-child(2),.touch-face button:nth-child(2) { grid-column:1; grid-row:2; }.touch-dpad button:nth-child(3),.touch-face button:nth-child(3) { grid-column:3; grid-row:2; }.touch-dpad button:nth-child(4),.touch-face button:nth-child(4) { grid-column:2; grid-row:3; }
+.touch-center { position:absolute; bottom:max(12px,env(safe-area-inset-bottom)); left:50%; transform:translateX(-50%); display:flex; gap:8px; }.touch-center button { font-size:11px; }
+#touch-toolbar { position:fixed; z-index:13; right:max(8px,env(safe-area-inset-right)); top:max(8px,env(safe-area-inset-top)); display:flex; gap:6px; font:14px system-ui,sans-serif; }
+#touch-toolbar button { min-height:36px; border:1px solid #90b77e; border-radius:8px; color:#fff; background:#18251de6; padding:6px 10px; }
+.touch-settings { box-sizing:border-box; width:min(620px,94vw); max-height:86dvh; overflow:auto; border:1px solid #7ea365; border-radius:14px; color:#ecf0ea; background:#111a16; padding:20px; font:15px/1.4 system-ui,sans-serif; }
+.touch-settings::backdrop { background:#000b; }.touch-settings h2 { margin-top:0; }.touch-settings label { display:block; margin:12px 0; }.touch-settings select { display:block; width:100%; color:#fff; background:#0b100e; border:1px solid #60705c; border-radius:6px; padding:9px; min-height:44px; }.touch-settings input[type=range] { display:block; width:100%; accent-color:#7bb457; min-height:36px; }.touch-settings button { background:#38572a; color:#fff; border:1px solid #87b96a; padding:10px 14px; border-radius:8px; min-height:44px; }.touch-settings pre { white-space:pre-wrap; font:13px/1.5 monospace; }.touch-mappings { display:grid; grid-template-columns:1fr 1fr; gap:0 14px; }.touch-settings-actions { display:flex; justify-content:space-between; gap:10px; margin-top:14px; }.touch-settings summary { cursor:pointer; padding:10px 0; }
+@media (orientation:portrait) { .touch-dpad { left:4%;top:33%; }.touch-face { right:4%;top:33%; }.touch-center { bottom:170px; } }
+@media (max-width:480px) and (orientation:portrait) { #touch-controls { --touch-size:min(var(--touch-user-size,1),1.15); } }
+@media (max-height:430px) and (orientation:landscape) { #touch-controls { --touch-size:min(var(--touch-user-size,1),1.1); }.touch-dpad,.touch-face { top:30%; }.touch-dpad { left:24%; }.touch-face { right:24%; } }
+
+.touch-inline{width:100%;max-height:none;overflow:visible;border:0;border-radius:0;padding:0;background:transparent;font-size:14px}.touch-inline .touch-settings-actions{justify-content:flex-start}
+
+.touch-inline{color:#f2f6f2}.touch-inline p{color:#c4cec6;font-size:14px;line-height:1.55}
+
+.touch-surface { --safe-left:env(safe-area-inset-left,0px); --safe-right:env(safe-area-inset-right,0px); --safe-top:env(safe-area-inset-top,0px); --safe-bottom:env(safe-area-inset-bottom,0px); --touch-size:var(--touch-user-size,1); position:absolute; inset:0; pointer-events:none; font:600 14px system-ui,sans-serif; color:#fff; }
+.touch-surface button,.touch-surface .touch-stick { box-sizing:border-box; pointer-events:auto; touch-action:none; user-select:none; -webkit-user-select:none; border:2px solid #a7c98c; background:#18251dcc; color:#fff; }
+.touch-surface button { width:calc(44px * var(--touch-size)); height:calc(44px * var(--touch-size)); border-radius:50%; font:inherit; padding:0; overflow:hidden; overflow-wrap:anywhere; }
+.touch-surface.touch-free > .touch-shoulders,.touch-surface.touch-free > .touch-dpad,.touch-surface.touch-free > .touch-face,.touch-surface.touch-free > .touch-center { display:contents; }
+.touch-surface.touch-free [data-button],.touch-surface.touch-free [data-stick],#touch-controls.touch-free [data-stick] { position:absolute; margin:0; right:auto; bottom:auto; transform:translate(-50%,-50%) scale(var(--control-scale,1)); }
+.touch-surface [hidden] { display:none!important; }
+.touch-layout-editor { box-sizing:border-box; width:100vw; height:100dvh; max-width:none; max-height:none; margin:0; padding:12px; border:0; background:#101b16; color:#fff; font:14px system-ui,sans-serif; overflow:auto; }
+.touch-layout-editor::backdrop { background:#000d; }
+.touch-editor-bar { display:flex; align-items:center; flex-wrap:wrap; gap:8px; }.touch-editor-bar strong { margin-right:auto; }
+.touch-layout-editor button,.touch-layout-editor select,.touch-layout-editor input:not([type=range]):not([type=checkbox]) { box-sizing:border-box; min-height:40px; border:1px solid #87a779; border-radius:6px; padding:6px 10px; background:#243829; color:#fff; font:inherit; }
+.touch-layout-editor button:disabled { opacity:.4; }.touch-editor-hint { color:#c5d4c7; margin:8px 0; }
+.touch-editor-stage { position:relative; margin:0 auto; width:min(100%,1100px); aspect-ratio:16/9; background:linear-gradient(135deg,#203c43,#33472b); border:1px dashed #83a576; overflow:hidden; }
+.touch-editor-stage[data-orientation=portrait] { width:min(100%,337.5px); aspect-ratio:9/16; }
+#touch-layout-preview { --touch-size:min(var(--touch-user-size,1),1.1); }
+#touch-layout-preview .touch-stick { width:calc(clamp(60px,18cqw,130px) * var(--touch-size)); }
+.touch-editor-stage { container-type:inline-size; }
+#touch-layout-preview .touch-shoulders { top:12%;left:8%;right:8%; }
+#touch-layout-preview .touch-center { bottom:8%; }
+.touch-editor-stage[data-orientation=portrait] .touch-dpad { left:4%;top:33%; }.touch-editor-stage[data-orientation=portrait] .touch-face { right:4%;top:33%; }
+.touch-editor-stage[data-orientation=landscape] .touch-dpad { left:24%;top:30%; }.touch-editor-stage[data-orientation=landscape] .touch-face { right:24%;top:30%; }
+.touch-editor-properties { display:flex; flex-wrap:wrap; align-items:end; gap:10px; margin-top:12px; }.touch-editor-properties label { display:flex; flex-direction:column; gap:4px; max-width:240px; }.touch-editor-properties input[type=range] { min-height:36px; width:125px; accent-color:#a7c98c; }.touch-editor-properties [data-status] { width:100%; }
+#touch-layout-preview .touch-selected { outline:3px solid #fff;outline-offset:3px; }#touch-layout-preview .touch-hidden-control { border-style:dashed; }
+#touch-layout-preview button { min-height:0; border-radius:50%; padding:0; font-size:11px; }
+.touch-editor-bar { position:sticky; top:0; z-index:2; background:#101b16; padding-bottom:6px; }
+.touch-wheel-fields { display:flex;flex-wrap:wrap;gap:10px;width:100%; }.touch-wheel-fields[hidden] { display:none; }.touch-wheel-fields p { width:100%;color:#c5d4c7;margin:0; }
+.touch-stick.touch-wheel span { width:76%;height:76%;box-sizing:border-box;border:4px solid #a7c98c;background:transparent; }
+.touch-stick.touch-wheel span::before,.touch-stick.touch-wheel span::after { content:'';position:absolute;background:#a7c98c;left:50%;top:50%;transform:translate(-50%,-50%);width:100%;height:3px; }
+.touch-stick.touch-wheel span::after { width:3px;height:100%; }.touch-stick.touch-wheel b { top:43%;font-size:11px;text-shadow:0 1px 3px #000; }
+.touch-saved-layouts { border:1px solid #60705c;border-radius:8px;padding:12px;margin:12px 0; }.touch-saved-layouts h3 { margin:0; }.touch-saved-layouts input[type=text],.touch-saved-layouts input:not([type]) { box-sizing:border-box;display:block;width:100%;min-height:40px;padding:8px;background:#0b100e;border:1px solid #60705c;border-radius:6px;color:#fff; }
+#touch-toolbar { max-width:calc(100vw - 16px - env(safe-area-inset-left,0px) - env(safe-area-inset-right,0px));flex-wrap:wrap;justify-content:flex-end; }#touch-toolbar [data-next-layout] { max-width:min(240px,calc(100vw - 210px - env(safe-area-inset-left,0px) - env(safe-area-inset-right,0px)));overflow:hidden;text-overflow:ellipsis;white-space:nowrap; }#touch-toolbar button:disabled { opacity:.6; }
+.touch-settings-actions { flex-wrap:wrap; }
+
+/* Shared by the live overlay and the editor; shapes retain rectangular hit targets. */
+.touch-surface { --ctl-border:#a7c98c; --ctl-bg:#18251dcc; --ctl-active:#62963edb; --ctl-ink:#fff; --ctl-shadow:none; }
+.touch-surface[data-theme=glass] { --ctl-border:#d8e3f099; --ctl-bg:#182536a6; --ctl-active:#587698ee; --ctl-shadow:inset 0 1px 0 #ffffff30,0 4px 14px #0004; }
+.touch-surface[data-theme=minimal] { --ctl-border:#ffffffa6; --ctl-bg:#12161c38; --ctl-active:#ffffffd9; }
+.touch-surface[data-theme=arcade] { --ctl-border:#cbcce0; --ctl-bg:#212033e0; --ctl-active:#706695; --ctl-shadow:inset 0 -3px 0 #0005,0 3px 0 #0004; }
+.touch-surface[data-theme=arcade] [data-accent=green] { --ctl-border:#8fe39c; --ctl-active:#3e8451; }
+.touch-surface[data-theme=arcade] [data-accent=red] { --ctl-border:#ff9b9d; --ctl-active:#a34149; }
+.touch-surface[data-theme=arcade] [data-accent=blue] { --ctl-border:#8fc3ff; --ctl-active:#356cab; }
+.touch-surface[data-theme=arcade] [data-accent=yellow] { --ctl-border:#ffe197; --ctl-active:#95772f; }
+#touch-controls.touch-surface button,#touch-controls.touch-surface .touch-stick,.touch-surface button,.touch-surface .touch-stick { border-color:var(--ctl-border);background:var(--ctl-bg);color:var(--ctl-ink);box-shadow:var(--ctl-shadow); }
+#touch-controls.touch-surface button,.touch-surface button,#touch-layout-preview button { display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;line-height:1.1; }
+#touch-controls.touch-surface [data-shape=round],.touch-surface [data-shape=round],#touch-layout-preview [data-shape=round] { border-radius:50%; }
+#touch-controls.touch-surface [data-shape=rounded],.touch-surface [data-shape=rounded],#touch-layout-preview [data-shape=rounded] { border-radius:26%; }
+#touch-controls.touch-surface [data-shape=square],.touch-surface [data-shape=square],#touch-layout-preview [data-shape=square] { border-radius:8%; }
+#touch-controls.touch-surface [data-shape=pill],.touch-surface [data-shape=pill],#touch-layout-preview [data-shape=pill] { border-radius:999px;width:calc(66px * var(--touch-size)); }
+.touch-surface button svg { width:52%;height:52%;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;pointer-events:none;flex:none; }
+.touch-surface button svg text { fill:currentColor;stroke:none;font:700 8px system-ui,sans-serif;text-anchor:middle; }
+.touch-surface button .touch-caption { max-width:95%;pointer-events:none; }
+.touch-surface button[data-display=both] .touch-caption { font-size:9px;line-height:1; }
+#touch-controls.touch-surface .pressed { background:var(--ctl-active);border-color:#fff; }
+#touch-controls.touch-surface[data-theme=minimal] .pressed { color:#12161c; }
+.touch-surface .touch-stick span { background:var(--ctl-border);opacity:.65; }
+.touch-surface .touch-wheel span { border-color:var(--ctl-border);background:transparent;opacity:1; }
+.touch-surface .touch-wheel span::before,.touch-surface .touch-wheel span::after { background:var(--ctl-border); }
+.touch-surface button:focus-visible { outline:3px solid #fff;outline-offset:3px; }
+.touch-design-bar { display:flex;flex-wrap:wrap;align-items:end;gap:10px;padding:12px 0; }
+.touch-design-bar label { display:flex;flex-direction:column;gap:4px; }
+.touch-design-bar small { width:100%;color:#c5d4c7; }
+.touch-editor-properties { border:1px solid #45574b;border-radius:14px;padding:12px;background:#16221c; }
+.touch-settings details,.touch-saved-layouts { background:#ffffff04;border-radius:12px;padding:12px; }
+
+#touch-shell { position:fixed;inset:0;z-index:0;pointer-events:none;background-position:center;background-size:cover;background-repeat:no-repeat; }
+#touch-shell[hidden] { display:none; }
+html[data-touch-presentation=handheld] #canvas { z-index:1;left:var(--game-left);top:var(--game-top);width:var(--game-width);height:var(--game-height);box-shadow:0 0 0 4px #1118,0 5px 16px #0007; }
+html[data-touch-presentation=handheld] #touch-controls { top:var(--deck-top);height:var(--deck-height);bottom:0;--touch-size:min(var(--touch-user-size,1),var(--deck-size));--surface-opacity:var(--touch-opacity); }
+html[data-touch-presentation=handheld] #touch-controls .touch-stick { width:calc(82px * var(--touch-size)); }
+html[data-touch-presentation=handheld] #touch-controls { opacity:1; }
+html[data-touch-presentation=handheld] #touch-toolbar { top:calc(var(--deck-top) + 3px);bottom:auto;right:auto;left:50%;transform:translateX(-50%);max-width:340px;gap:3px;font-size:11px;flex-wrap:nowrap; }
+html[data-touch-presentation=handheld] #touch-toolbar button { min-height:28px;padding:3px 6px; }
+html[data-touch-presentation=handheld] #touch-toolbar [data-next-layout] { max-width:160px; }
+.touch-editor-screen { display:none; }
+.touch-editor-stage[data-presentation=handheld] { background-position:center;background-size:cover;border-style:solid; }
+.touch-editor-stage[data-presentation=handheld] .touch-editor-screen { display:grid;place-items:center;position:absolute;left:var(--game-left);top:var(--game-top);width:var(--game-width);height:var(--game-height);background:linear-gradient(#355e74,#adc8bc 65%,#476c4d 66%,#203b31);color:#fff;text-shadow:0 1px 3px #000;box-shadow:0 0 0 3px #1118;font-size:12px; }
+.touch-editor-stage[data-presentation=handheld] #touch-layout-preview { top:var(--deck-top);height:var(--deck-height);bottom:0;--touch-size:min(var(--touch-user-size,1),var(--deck-size)); }
+.touch-editor-stage[data-presentation=handheld] #touch-layout-preview .touch-stick { width:calc(82px * var(--touch-size)); }
+.touch-shell-settings { border:1px solid #45574b;border-radius:12px;padding:12px;margin:12px 0; }
+.touch-shell-settings small { display:block;color:#c5d4c7; }
+.touch-shell-settings input[type=color] { min-height:40px;min-width:60px;padding:4px; }
+.touch-shell-settings input[type=file] { max-width:100%;min-height:40px; }
+.touch-shell-settings [role=status] { display:block;width:100%;font-size:12px; }
+.touch-shell-settings h3 { margin-top:0; }
+html[data-touch-presentation=handheld] .touch-surface:not([data-style-pack=extended])[data-background=dmg],.touch-editor-stage[data-presentation=handheld] .touch-surface:not([data-style-pack=extended])[data-background=dmg] { --ctl-border:#493b4a;--ctl-bg:#dedbd4ee;--ctl-active:#863950;--ctl-ink:#252330; }
+html[data-touch-presentation=handheld] .touch-surface:not([data-style-pack=extended])[data-background=pocket],.touch-editor-stage[data-presentation=handheld] .touch-surface:not([data-style-pack=extended])[data-background=pocket] { --ctl-border:#3a4349;--ctl-bg:#c8d0d5e6;--ctl-active:#fff;--ctl-ink:#202c36; }
+html[data-touch-presentation=handheld] .touch-surface:not([data-style-pack=extended])[data-background=indigo],.touch-editor-stage[data-presentation=handheld] .touch-surface:not([data-style-pack=extended])[data-background=indigo] { --ctl-border:#ded9ff;--ctl-bg:#33306de6;--ctl-active:#8179c4;--ctl-ink:#fff; }
+
+html[data-touch-presentation=custom] #canvas { z-index:1;left:var(--game-left);top:var(--game-top);width:var(--game-width);height:var(--game-height);box-shadow:0 0 0 3px #1118,0 4px 16px #0006; }
+.touch-editor-stage[data-presentation=custom] { background-position:center;background-size:cover; }
+.touch-editor-stage[data-presentation=custom] .touch-editor-screen { display:grid;place-items:center;position:absolute;left:var(--game-left);top:var(--game-top);width:var(--game-width);height:var(--game-height);background:linear-gradient(#355e74,#adc8bc 65%,#476c4d 66%,#203b31);color:#fff;text-shadow:0 1px 3px #000;box-shadow:0 0 0 3px #1118;font-size:12px;pointer-events:none; }
+.touch-viewport-handle { display:none; }
+.touch-editor-stage[data-presentation=custom] .touch-viewport-handle { display:block;position:absolute;left:50%;top:4px;transform:translateX(-50%);pointer-events:auto;touch-action:none;cursor:move;min-height:32px;padding:4px 8px;background:#102127e6;font-size:11px;white-space:nowrap; }
+.touch-viewport-fields { display:flex;flex-wrap:wrap;gap:10px;width:100%;padding:10px 0; }
+.touch-viewport-fields[hidden] { display:none; }
+.touch-viewport-fields label { flex:1 1 150px;display:flex;flex-direction:column;gap:4px; }
+.touch-viewport-fields input[type=range] { width:100%;min-height:36px;accent-color:#a7c98c; }
+.touch-viewport-fields output { font-size:12px;color:#d0e4d0; }
+.touch-viewport-fields small { width:100%; }
+
+/* Editor grips live above the controls instead of inside their lower stacking layer. */
+.touch-editor-stage .touch-editor-screen { display:grid;place-items:center;position:absolute;left:var(--game-left);top:var(--game-top);width:var(--game-width);height:var(--game-height);background:linear-gradient(#355e74,#adc8bc 65%,#476c4d 66%,#203b31);color:#fff;text-shadow:0 1px 3px #000;pointer-events:none;z-index:0; }
+#touch-layout-preview { z-index:1; }
+.touch-editor-stage .touch-viewport-handle,.touch-editor-stage[data-presentation=custom] .touch-viewport-handle { display:block;position:absolute;left:calc(var(--game-left) + var(--game-width) / 2);top:calc(var(--game-top) + 4px);transform:translateX(-50%);z-index:4;pointer-events:auto;touch-action:none;cursor:move;min-height:32px;padding:4px 8px;background:#102127e6;font-size:11px;white-space:nowrap; }
+.touch-editor-stage .touch-viewport-resize { position:absolute;left:calc(var(--game-left) + var(--game-width) - 32px);top:calc(var(--game-top) + var(--game-height) - 32px);width:32px;height:32px;min-height:32px;padding:0;z-index:4;pointer-events:auto;touch-action:none;cursor:nwse-resize;background:#102127e6;font-size:22px; }
+
+/* Additional palettes share the same input/hit geometry and pressed-state pipeline. */
+.touch-surface[data-theme=touch] { --ctl-border:#ffffff80;--ctl-bg:#1414148c;--ctl-active:#ffffff8c;--ctl-ink:#fff;--ctl-shadow:none; }
+.touch-surface[data-theme=touch] .pressed { --ctl-ink:#000; }
+.touch-surface button svg .touch-icon-fill { fill:currentColor; }
+.touch-surface[data-theme=touch] button svg { width:42%;height:42%;stroke-width:2; }
+.touch-surface[data-theme=xbox] { --ctl-border:#86918d;--ctl-bg:#151b18e6;--ctl-active:#4a6051;--ctl-ink:#fff;--ctl-shadow:inset 0 2px 2px #fff2,inset 0 -3px 0 #0005; }
+.touch-surface[data-theme=xbox] [data-accent=green] { --ctl-border:#9ddb82;--ctl-bg:#319c43;--ctl-active:#62ca6e; }
+.touch-surface[data-theme=xbox] [data-accent=red] { --ctl-border:#ff9398;--ctl-bg:#cf323e;--ctl-active:#f4666e; }
+.touch-surface[data-theme=xbox] [data-accent=blue] { --ctl-border:#85c9ff;--ctl-bg:#196fb8;--ctl-active:#54aaf0; }
+.touch-surface[data-theme=xbox] [data-accent=yellow] { --ctl-border:#ffe89d;--ctl-bg:#e6bc30;--ctl-active:#ffe274;--ctl-ink:#28200c; }
+.touch-surface[data-theme=snes] { --ctl-border:#a8a9ba;--ctl-bg:#cacbd5eb;--ctl-active:#8a8ca2;--ctl-ink:#282936;--ctl-shadow:inset 0 2px 0 #fff8,inset 0 -3px 0 #0003; }
+.touch-surface[data-theme=snes] [data-accent=green] { --ctl-border:#ace4c4;--ctl-bg:#60b190;--ctl-active:#99e2bb; }
+.touch-surface[data-theme=snes] [data-accent=red] { --ctl-border:#ffbfc7;--ctl-bg:#dc8196;--ctl-active:#ffb4c4; }
+.touch-surface[data-theme=snes] [data-accent=blue] { --ctl-border:#c7d7ff;--ctl-bg:#829dde;--ctl-active:#b4cbff; }
+.touch-surface[data-theme=snes] [data-accent=yellow] { --ctl-border:#fff1be;--ctl-bg:#dfc679;--ctl-active:#fce7a2; }
+.touch-surface[data-theme=neon] { --ctl-border:#73f0ee;--ctl-bg:#141c36db;--ctl-active:#3f4389;--ctl-ink:#dffffe;--ctl-shadow:0 0 8px #64efe844,inset 0 0 8px #64efe81a; }
+.touch-surface[data-theme=neon] [data-accent=red],.touch-surface[data-theme=neon] [data-accent=yellow] { --ctl-border:#ff8acb;--ctl-shadow:0 0 8px #ff8acb44,inset 0 0 8px #ff8acb1a; }
+.touch-surface[data-theme=amber] { --ctl-border:#e8b953;--ctl-bg:#251b0de8;--ctl-active:#9c6d1d;--ctl-ink:#ffe0a1;--ctl-shadow:inset 0 0 10px #e8b95315; }
+.touch-surface[data-theme=amber] button { font-family:ui-monospace,monospace; }
+.touch-surface[data-theme=ice] { --ctl-border:#9bdefa;--ctl-bg:#143d53d9;--ctl-active:#457c9c;--ctl-ink:#e5f8ff;--ctl-shadow:inset 0 1px 0 #fff4,0 3px 12px #07233855; }
+.touch-surface[data-theme=light] { --ctl-border:#8a9ba8;--ctl-bg:#f1f4f8eb;--ctl-active:#557185;--ctl-ink:#233342;--ctl-shadow:0 2px 5px #0003,inset 0 1px 0 #fff; }
+.touch-surface[data-theme=light] .pressed { --ctl-ink:#fff; }
+
+/* Hi-fi editor: stationary chrome, scroll-contained workspace, grouped inspector. */
+.touch-layout-editor { padding:0;overflow:hidden;background:#0b120e;color:#f2f6f2;border-radius:0; }
+.touch-layout-editor[open] { display:grid;grid-template-rows:auto minmax(0,1fr); }
+.touch-layout-editor .touch-editor-bar { position:relative;top:auto;z-index:10;display:grid;grid-template-columns:minmax(0,1fr) auto auto auto;gap:12px;align-items:center;padding:18px max(24px,env(safe-area-inset-right)) 18px max(24px,env(safe-area-inset-left));background:linear-gradient(#303b2e,#1c291e);border-bottom:2px solid #79b85b;box-shadow:0 4px 12px #0007; }
+.touch-editor-bar strong { margin:0;display:grid;gap:4px;font-size:22px;font-weight:600;line-height:1.2; }
+.touch-editor-bar strong small { color:#b3d99b;font:10px/1.3 Consolas,monospace;letter-spacing:.14em; }
+.touch-editor-bar button,.touch-editor-bar select,.touch-editor-inspector button { min-height:44px;padding:10px 14px;background:linear-gradient(#426a36,#2e5029);border:1px solid #10200d;border-radius:6px;color:#f2f6f2;box-shadow:inset 0 1px #b3d99b55,0 3px 0 #080e07;font:600 14px/1.3 "Segoe UI",Arial,sans-serif; }
+.touch-editor-bar [data-save] { order:3;background:linear-gradient(#8bc76b,#79b85b);color:#0b180a;border-color:#314b26; }
+.touch-editor-bar [data-cancel] { order:2;background:linear-gradient(#33442e,#253421); }
+.touch-editor-bar select { order:1;box-shadow:inset 0 2px 4px #0007;background:#0c160e;border-color:#526e45; }
+.touch-editor-workspace { min-height:0;overflow:hidden;overscroll-behavior:contain;display:grid;grid-template-columns:minmax(0,1fr) 360px;grid-template-rows:minmax(0,1fr);gap:24px;padding:24px;align-items:start; }
+.touch-editor-preview { min-width:0;position:static; }
+.touch-editor-hint { color:#c4cec6;font-size:13px;line-height:1.55;margin:0 0 16px;padding:12px 16px;border:1px solid #344d2b;border-radius:6px;background:#162218; }
+.touch-editor-stage { border:1px solid #63715f;border-radius:8px;box-shadow:0 0 0 5px #18251a,inset 0 2px 8px #0009; }
+.touch-editor-stage[data-orientation=portrait] { width:min(100%,337.5px,calc((100dvh - 220px) * .5625)); }
+.touch-editor-stage[data-orientation=landscape] { width:min(100%,1100px,calc((100dvh - 240px) * 1.7778)); }
+.touch-editor-inspector { min-width:0;min-height:0;height:100%;overflow:auto;overscroll-behavior:contain;display:grid;align-content:start;gap:16px;padding:0 4px 8px; }
+.touch-editor-group { min-width:0;border:1px solid #42583c;border-radius:9px;padding:8px;background:#101a12;box-shadow:inset 0 2px 5px #0007; }
+.touch-editor-group > summary { display:flex;align-items:center;gap:10px;min-height:48px;padding:12px;border:1px solid #182615;border-radius:6px;background:linear-gradient(#354b2e,#24371f);box-shadow:inset 0 1px #a1b98f55,0 3px 0 #080e07;color:#f2f6f2;font-weight:650;list-style:none;cursor:pointer; }
+.touch-editor-group > summary::-webkit-details-marker { display:none; }
+.touch-editor-group > summary::before { content:"+";display:grid;place-items:center;flex:0 0 22px;width:22px;height:22px;border:1px solid #526e45;border-radius:50%;background:#101c0d;color:#b3d99b;font:18px/1 Consolas,monospace;box-shadow:inset 0 2px 3px #0009; }
+.touch-editor-group[open] > summary { margin-bottom:16px;background:linear-gradient(#263c20,#1b2e16);border-color:#60864b;box-shadow:inset 0 2px 4px #0008; }
+.touch-editor-group[open] > summary::before { content:"−";border-color:#79b85b; }
+.touch-editor-inspector .touch-editor-properties,.touch-editor-inspector .touch-design-bar { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 12px;border:0;border-radius:0;margin:0;padding:8px;background:transparent;align-items:start; }
+.touch-editor-inspector label { min-width:0;max-width:none;display:grid;gap:7px;margin:0;color:#c4cec6;font-size:12px;font-weight:600;line-height:1.4; }
+.touch-editor-inspector select,.touch-editor-inspector input:not([type=range]):not([type=checkbox]) { min-width:0;width:100%;min-height:44px;padding:10px;background:#080f0a;border:1px solid #526e45;border-radius:5px;color:#f2f6f2;font:14px/1.35 "Segoe UI",Arial,sans-serif;box-shadow:inset 0 2px 4px #0007; }
+.touch-editor-inspector input[type=range] { width:100%;min-width:0;min-height:36px;accent-color:#79b85b; }
+.touch-editor-inspector input[type=checkbox] { accent-color:#79b85b; }
+.touch-editor-inspector label:has([type=checkbox]) { display:flex;flex-direction:row;align-items:center;gap:8px;min-height:36px;grid-column:1 / -1; }
+.touch-editor-actions { grid-column:1 / -1;display:grid;grid-template-columns:1fr 1fr;gap:12px;border-top:1px solid #344d2b;padding-top:16px; }
+.touch-editor-inspector .touch-wheel-fields,.touch-editor-inspector .touch-shell-settings,.touch-editor-inspector .touch-viewport-fields { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 12px;padding:0;min-width:0; }
+.touch-editor-inspector .touch-shell-settings > label:first-child { grid-column:1 / -1; }
+.touch-editor-inspector .touch-wheel-fields,.touch-editor-inspector .touch-viewport-fields,.touch-editor-inspector .touch-editor-group,.touch-editor-inspector small,.touch-editor-inspector p,.touch-editor-inspector [data-status],.touch-editor-inspector [data-reset-layout] { grid-column:1 / -1; }
+.touch-editor-inspector small,.touch-editor-inspector p { margin:0;color:#c4cec6;font-size:12px;line-height:1.55; }
+.touch-editor-inspector [hidden] { display:none!important; }
+.touch-editor-bar button:focus-visible,.touch-editor-inspector :is(button,select,input,summary):focus-visible { outline:2px solid #b3d99b;outline-offset:3px; }
+@media(max-width:1000px) {
+  .touch-editor-workspace { grid-template-columns:minmax(0,1fr) 310px;gap:18px;padding:18px; }
+}
+@media(max-width:760px) {
+  .touch-editor-workspace { grid-template-columns:1fr;grid-template-rows:none;overflow:auto;padding:18px 14px;gap:22px; }
+  .touch-editor-preview { position:static; }
+  .touch-editor-inspector { height:auto;overflow:visible; }
+  .touch-editor-stage[data-orientation=portrait] { width:min(100%,240px); }
+  .touch-editor-stage[data-orientation=landscape] { width:100%; }
+  .touch-layout-editor .touch-editor-bar { grid-template-columns:minmax(0,1fr) auto auto;gap:10px;padding:14px; }
+  .touch-editor-bar strong { grid-column:1 / -1;font-size:20px; }
+  .touch-editor-bar select { width:100%; }
+  .touch-editor-inspector .touch-editor-properties,.touch-editor-inspector .touch-design-bar { gap:16px 12px; }
+}

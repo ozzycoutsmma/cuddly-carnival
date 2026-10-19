@@ -1,0 +1,27 @@
+/* Portable player: compact rounded shell, one display, large transport key. */
+.launcher {width:min(620px,calc(100% - 32px));padding:28px;background:var(--launcher-chassis);border-radius:30px;border:1px solid var(--ui-tint-63715f, #63715f);box-shadow:inset 0 2px var(--ui-tint-a1b09b66, #a1b09b66),0 16px 40px #0008;}
+.masthead {grid-template-columns:52px 1fr;gap:14px;margin-bottom:20px;padding-bottom:20px;}
+.logo {width:52px;height:52px;max-height:52px;}
+.masthead h1 {font-size:31px;font-weight:500;}
+.masthead .eyebrow {font-size:10px;}
+.masthead-actions {grid-column:1 / -1;display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.masthead-actions .donate-trigger {width:100%;border-radius:24px;}
+.masthead-actions #grandv-trade {grid-column:1 / -1;justify-self:center;width:calc((100% - 10px)/2);}
+.player-flow {padding:24px;background:var(--launcher-display);border:2px solid var(--ui-tint-0a1009, #0a1009);border-radius:16px;box-shadow:inset 0 3px 8px #0009,0 1px var(--ui-tint-8ca28055, #8ca28055);}
+.panel h2 {font-size:24px;}
+.player-flow .mode-grid {grid-template-columns:1fr;gap:10px;}
+.mode-card {min-height:0;padding:18px 40px 18px 18px;border-radius:8px;}
+.mode-title {font-size:20px;}
+.mode-card:has(input:checked) {background:var(--launcher-selected);border-color:var(--ui-tint-6c9857, #6c9857);}
+.mode-card.mode-unavailable {padding-top:14px;padding-bottom:14px;}
+.quickstart-selectors {gap:10px;}
+.quickstart-selectors #play-single-mode,.quickstart-selectors #play-map {border-radius:6px;color:var(--accent2);}
+.main-quick-actions {justify-content:center;margin:18px 0;}
+#language-open, #ui-appearance-open {width:100%;border-radius:22px;min-height:48px;}
+.more-options > summary {border-radius:12px;min-height:60px;}
+.options-layout {grid-template-columns:1fr;}
+.launcher > footer {flex-direction:column;align-items:center;border:0;gap:20px;padding-top:22px;}
+#start {order:0;width:190px;min-width:190px;min-height:82px;border-radius:24px;font-size:27px;padding:20px 26px;box-shadow:inset 0 2px var(--ui-tint-d2f0bc, #d2f0bc),0 6px 0 var(--button-edge, #0b1409),0 0 0 5px var(--ui-tint-162218, #162218);}
+#launch-note {order:1;text-align:center;}
+.settings-dialog,.cache-dialog,.donation-dialog {border-radius:16px;}
+@media(max-width:600px){.launcher{width:calc(100% - 24px);padding:22px 16px;border-radius:24px}.masthead h1{font-size:29px}.player-flow{padding:22px 16px}.launcher > footer{align-items:center}#start{width:190px}.masthead-actions .donate-trigger{padding:0 12px;font-size:15px}}

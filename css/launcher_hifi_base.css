@@ -1,0 +1,147 @@
+/* Production hi-fi baseline. Original launcher behaviour and control IDs retained. */
+:root {
+  --ink: var(--ui-tint-f2f6f2, #f2f6f2);
+  --muted: var(--ui-tint-c4cec6, #c4cec6);
+  --accent:var(--ui-tint-79b85b, #79b85b);
+  --accent2:var(--ui-tint-b3d99b, #b3d99b);
+  --line: var(--ui-tint-344039, #344039);
+  --panel: #101419;
+  background: #07090c;
+  font-family: Bahnschrift, "Segoe UI", Arial, sans-serif;
+}
+body { background: #07090c; }
+button, .button, input, select, textarea { border-radius: 4px; }
+button, .button { transition: background .14s, border-color .14s; }
+.launcher { width: min(900px, calc(100% - 48px)); padding: 30px 0 calc(118px + env(safe-area-inset-bottom, 0px)); }
+.masthead { display: grid; grid-template-columns: 74px minmax(0, 1fr) auto; gap: 22px; align-items: center; margin: 0 0 26px; padding: 8px 0; }
+.logo { width: 74px; height: 74px; max-height: 74px; object-fit: contain; }
+.eyebrow { font-size: 11px; font-weight: 650; letter-spacing: .09em; color: var(--accent2); margin: 0 0 9px; line-height: 1.4; }
+.masthead h1 { font-size: clamp(32px, 4.3vw, 46px); line-height: 1.05; letter-spacing: -.025em; font-weight: 700; }
+.masthead .eyebrow { font-size: 10px; letter-spacing: .14em; }
+.masthead-actions { display: flex; align-items: center; flex-wrap: nowrap; gap: 8px; margin: 0; }
+.masthead-actions .donate-trigger {
+  display: inline-flex; align-items: center; justify-content: center;
+  height: 48px; min-height: 48px; margin: 0; padding: 0 16px;
+  border: 1px solid var(--ui-tint-527d40, #527d40); border-radius: 4px;
+  font: 600 15px/1 Bahnschrift, "Segoe UI", Arial, sans-serif;
+  background: var(--ui-tint-2e5029, #2e5029); color: var(--ink); white-space: nowrap; text-decoration: none;
+}
+.masthead-actions .donate-trigger:hover { background: var(--ui-tint-3b6633, #3b6633); border-color: var(--accent); }
+.panel { border: 0; border-radius: 5px; background: var(--panel); box-shadow: none; margin: 0 0 18px; padding: 26px 28px; }
+.panel h2 { font-size: 25px; line-height: 1.2; letter-spacing: -.02em; font-weight: 650; }
+.player-flow { position: relative; border-left: 6px solid var(--accent); }
+.player-flow > .eyebrow, .settings-panel .eyebrow, .saves .eyebrow { display: inline-block; background: var(--accent); color: var(--accent-ink, #0b180a); border-radius: 2px; padding: 5px 9px; font-size: 11px; line-height: 1.3; letter-spacing: .05em; font-weight: 750; margin-bottom: 12px; }
+.detail, small, .mode-card span:last-child, .options-layout .detail { font-size: 14px; line-height: 1.55; }
+.player-flow > .detail { margin-top: 12px; max-width: 78ch; }
+.player-flow .mode-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 23px; }
+.mode-card { position: relative; border: 1px solid var(--ui-tint-455047, #455047); background: #090d10; border-radius: 4px; padding: 17px 48px 17px 18px; min-height: 95px; }
+.mode-card:has(input:checked) { border-color: var(--accent); background: var(--accent); color: var(--accent-ink, #0b180a); box-shadow: none; }
+.mode-card:has(input:checked) .mode-title { color: var(--accent-ink, #0b180a); }
+.mode-card:has(input:checked)::after { content: "↗"; position: absolute; right: 17px; top: 14px; font: 24px/1 "Segoe UI", sans-serif; color: var(--accent-ink, #0b180a); }
+.mode-title { font-size: 18px; font-weight: 650; margin-bottom: 7px; letter-spacing: -.01em; }
+.mode-card.mode-unavailable { opacity: 1; filter: none; color: var(--ui-tint-95a199, #95a199); border-color: var(--ui-tint-29342e, #29342e); background: transparent; }
+.mode-card.mode-unavailable .mode-title { color: var(--ui-tint-95a199, #95a199); }
+.quickstart-selectors { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; align-items: start; margin-top: 4px; }
+.quickstart-selectors label, #single-mode-choice { min-width: 0; max-width: none; margin-top: 14px; gap: 8px; font-size: 13px; color: var(--muted); }
+.quickstart-selectors select, .settings-grid select, .settings-grid input, .player-flow select, .mod-choice select, .player-flow #mp-access, #play-single-mode, #play-map {
+  width: 100%; min-width: 0; min-height: 44px; border-radius: 4px; border: 1px solid var(--ui-tint-455047, #455047);
+  background: #090d10; color: var(--ink); padding: 11px 12px; font: 14px/1.4 Bahnschrift, "Segoe UI", Arial, sans-serif;
+}
+select { appearance: auto !important; }
+select option { background: #101419; color: var(--ink); }
+#startup-note { max-width: none; border-top: 1px solid var(--line); padding-top: 16px; margin-top: 20px; font-size: 13px; color: var(--ui-tint-aebbb1, #aebbb1); }
+#startup-note strong { color: var(--ink); font-weight: 650; }
+.main-quick-actions { justify-content: flex-start; margin: 14px 0; }
+#language-open, #ui-appearance-open { min-height: 44px; background: transparent; color: var(--ink); border: 1px solid var(--line); padding: 10px 18px; font-size: 14px; font-weight: 600; }
+.more-options > summary { display: flex; align-items: center; gap: 14px; min-height: 56px; border: 0; border-radius: 4px; padding: 16px 20px; box-shadow: none; background: var(--ui-tint-1b2620, #1b2620); color: var(--ink); font-size: 15px; font-weight: 600; list-style: none; }
+.more-options > summary::-webkit-details-marker { display: none; }
+.more-options > summary::before { content: "+"; display: grid; place-items: center; width: 24px; height: 24px; flex: 0 0 24px; border: 1px solid var(--ui-tint-62775e, #62775e); border-radius: 50%; color: var(--accent2); font: 19px/1 "Segoe UI", sans-serif; }
+.more-options[open] > summary::before { content: "−"; }
+.more-options > summary:hover, .more-options[open] > summary { background: var(--ui-tint-26382a, #26382a); }
+.more-options[open] > summary { margin-bottom: 14px; }
+.options-layout { gap: 14px; align-items: start; }
+.options-layout .panel { padding: 24px; }
+.options-layout h2 { font-size: 22px; }
+.section-head { align-items: start; margin-bottom: 20px; gap: 12px; }
+.saves .section-head { flex-direction: column; gap: 10px; }
+#save-status { text-align: left; font-size: 12px; color: var(--accent2); }
+.settings-actions { gap: 8px; }
+.settings-actions button { position: relative; border: 1px solid var(--line); border-radius: 4px; background: #0b1012; padding: 14px 36px 14px 14px; font-size: 14px; font-weight: 600; }
+.settings-actions button::after { content: "→"; position: absolute; right: 14px; top: 14px; color: var(--accent2); font: 18px/1.2 "Segoe UI", sans-serif; }
+.settings-actions button span { font-size: 12px; line-height: 1.5; font-weight: 400; margin-top: 5px; color: var(--muted); }
+.settings-actions button:hover:enabled { background: var(--ui-tint-20351f, #20351f); border-color: var(--accent); }
+.settings-actions button:disabled::after { content: ""; }
+.save-actions button, .button, .cache-tools button { min-height: 44px; border: 1px solid var(--ui-tint-455047, #455047); border-radius: 4px; background: var(--ui-tint-20351f, #20351f); color: var(--ink); padding: 11px 14px; font-size: 14px; font-weight: 600; }
+.save-actions .quiet { background: transparent; color: var(--accent2); }
+.link-button { text-decoration: underline; text-underline-offset: 4px; }
+.cache-tools { margin-top: 22px; padding-top: 20px; }
+/* One shared launch strip, rather than a floating button over the content. */
+.launcher > footer { position: fixed; left: 50%; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); z-index: 20; width: min(900px, calc(100% - 48px)); display: flex; flex-direction: row; align-items: center; justify-content: space-between; gap: 20px; padding: 12px 14px 12px 20px; margin: 0; border: 1px solid var(--ui-tint-455047, #455047); border-radius: 5px; background: #101419; box-shadow: 0 8px 24px #0007; }
+#launch-note { order: 0; text-align: left; font-size: 12px; line-height: 1.5; max-width: 52ch; }
+#start { position: static; transform: none; order: 1; width: 180px; min-width: 180px; min-height: 48px; border-radius: 3px; border: 0; background: var(--accent); color: var(--accent-ink, #0b180a); box-shadow: none; padding: 12px 18px; font-size: 18px; font-weight: 700; display: inline-flex; align-items: center; justify-content: space-between; gap: 24px; }
+#start span { margin: 0; font: 24px/1 "Segoe UI", sans-serif; }
+#start:hover { background: var(--accent2); }
+.settings-dialog, .cache-dialog, .donation-dialog { padding: 26px; border: 1px solid var(--ui-tint-455047, #455047); border-radius: 5px; background: #101419; color: var(--ink); box-shadow: 0 16px 48px #0008; }
+.settings-dialog .section-head, .donation-head { padding-bottom: 18px; border-bottom: 1px solid var(--line); margin-bottom: 18px; }
+.settings-dialog h2, .cache-dialog h2, .donation-head h2 { font-size: 25px; font-weight: 650; letter-spacing: -.02em; }
+.settings-dialog::backdrop, .cache-dialog::backdrop, .donation-dialog::backdrop { background: #07090cdd; backdrop-filter: none; }
+.settings-dialog-actions { gap: 10px; padding-top: 18px; border-top: 1px solid var(--line); }
+.settings-dialog-actions button, .cache-actions button, .graphics-presets button, .access-code-row button { border-radius: 4px; min-height: 44px; }
+.settings-dialog .section-head > button { border: 1px solid var(--line); background: var(--ui-tint-20351f, #20351f); border-radius: 4px; }
+.graphics-presets button { background: var(--ui-tint-20351f, #20351f); border-color: var(--ui-tint-455047, #455047); }
+.device-check-row { border-radius: 4px; border-color: var(--line); background: #0b1012; padding: 16px; }
+.help-dialog #help-sections details { border: 1px solid var(--line); border-radius: 4px; background: #0b1012; color: var(--ink); padding: 16px; }
+.help-dialog #help-sections summary, .help-dialog #help-sections li::marker, .help-dialog #help-sources a { color: var(--accent2); }
+.help-dialog #help-sections summary { font-size: 16px; }
+.help-dialog #help-sections p, .help-dialog #help-sections ol, .help-dialog #help-sections li { color: var(--ink); }
+.help-dialog textarea { border-radius: 4px; }
+.map-drop { border: 1px dashed var(--accent); border-radius: 4px; background: var(--ui-tint-20351f, #20351f); }
+.lan-certificate-controls { border-radius: 4px; }
+.join-error-dialog { border-color: #c96565; }
+.donation-tabs { gap: 6px; }
+.donation-tabs button { border-radius: 4px; min-height: 44px; }
+.donation-tabs button[aria-selected=true] { background: var(--accent); color: var(--accent-ink, #0b180a); }
+.donation-address, .donation-copy { border-radius: 4px; }
+dialog[data-dialog-dock] .dialog-close-dock { border-radius: 4px; background: var(--ui-tint-20351f, #20351f); border-color: var(--accent); }
+input[type=radio], input[type=checkbox] { accent-color: var(--accent); }
+button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible, summary:focus-visible { outline: 2px solid var(--accent2); outline-offset: 3px; }
+.mode-card:focus-within { outline: 2px solid var(--accent2); outline-offset: 3px; }
+@media (max-width: 760px) {
+  .masthead { grid-template-columns: 64px minmax(0, 1fr); gap: 14px 18px; }
+  .logo { width: 64px; height: 64px; max-height: 64px; }
+  .masthead-actions { grid-column: 2; justify-content: flex-start; }
+  .masthead h1 { font-size: 36px; }
+}
+@media (max-width: 600px) {
+  .launcher { width: calc(100% - 28px); padding-top: 18px; }
+  .masthead { margin-bottom: 20px; }
+  .masthead h1 { font-size: 32px; }
+  .masthead .eyebrow { font-size: 9px; letter-spacing: .09em; }
+  .panel, .options-layout .panel { padding: 22px 18px; }
+  .panel h2 { font-size: 23px; }
+  .player-flow { border-left-width: 4px; }
+  .player-flow .mode-grid { grid-template-columns: 1fr; gap: 8px; margin-top: 18px; }
+  .mode-card { min-height: 0; padding: 15px 42px 15px 16px; }
+  .mode-card.mode-unavailable { padding-top: 12px; padding-bottom: 12px; }
+  .mode-title { font-size: 17px; margin-bottom: 4px; }
+  .quickstart-selectors { gap: 10px; }
+  .options-layout { grid-template-columns: 1fr; }
+  .more-options > summary { padding: 14px; font-size: 14px; gap: 10px; }
+  .launcher > footer { width: calc(100% - 28px); gap: 12px; padding: 10px 10px 10px 14px; }
+  #launch-note { font-size: 11px; flex: 1; }
+  #start { width: 112px; min-width: 112px; font-size: 17px; gap: 12px; padding: 12px 14px; }
+  .settings-dialog, .cache-dialog, .donation-dialog { padding: 20px; }
+}
+@media (max-width: 420px) {
+  .masthead-actions { grid-column: 1 / -1; }
+  .masthead-actions .donate-trigger { flex: 1; }
+  .masthead h1 { font-size: 28px; }
+}
+@media (prefers-reduced-motion: reduce) { button, .button, .mode-card { transition: none; } }
+
+/* In-flow launch action keeps controls clear of the content. */
+.launcher { padding-bottom: 32px; }
+.launcher > footer { position: static; transform: none; width: 100%; margin-top: 18px; box-shadow: none; }
+.player-flow > .eyebrow, .settings-panel .eyebrow, .saves .eyebrow { background: none; color: var(--accent2); padding: 0; }
+.masthead-actions .donate-trigger { flex: none; }
+@media (max-width: 420px) { .masthead-actions .donate-trigger { flex: 1; } }

@@ -1,0 +1,94 @@
+/* Launcher-only hi-fi disclosure controls; native details/summary behaviour retained. */
+:root { --disclosure-radius: 8px; --disclosure-key-radius: 6px; }
+.more-options, .settings-dialog details {
+  border: 1px solid var(--ui-tint-42583c, #42583c);
+  border-radius: var(--disclosure-radius);
+  background: var(--ui-tint-101a12, #101a12);
+  padding: 8px;
+  box-shadow: inset 0 2px 5px #0007, 0 1px var(--ui-tint-8ca28022, #8ca28022);
+}
+.settings-dialog details { margin: 16px 0; }
+:is(.more-options, .settings-dialog details) > summary,
+#troubleshooting-dialog #help-sections details > summary {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 48px;
+  margin: 0;
+  padding: 13px 16px;
+  border: 1px solid var(--ui-tint-182615, #182615);
+  border-radius: var(--disclosure-key-radius);
+  background: linear-gradient(var(--ui-tint-354b2e, #354b2e), var(--ui-tint-24371f, #24371f));
+  color: var(--ink);
+  box-shadow: inset 0 1px var(--ui-tint-a1b98f55, #a1b98f55), 0 3px 0 var(--ui-tint-080e07, #080e07);
+  font: 650 14px/1.45 "Segoe UI", Arial, sans-serif;
+  letter-spacing: .01em;
+  list-style: none;
+  cursor: pointer;
+  transition: background .12s, border-color .12s;
+}
+:is(.more-options, .settings-dialog details) > summary::-webkit-details-marker { display: none; }
+:is(.more-options, .settings-dialog details) > summary::before {
+  content: "+";
+  display: grid;
+  place-items: center;
+  flex: 0 0 24px;
+  width: 24px;
+  height: 24px;
+  border: 1px solid var(--ui-tint-526e45, #526e45);
+  border-radius: 50%;
+  background: var(--ui-tint-101c0d, #101c0d);
+  box-shadow: inset 0 2px 3px #0009;
+  color: var(--accent2);
+  font: 18px/1 Consolas, monospace;
+}
+:is(.more-options, .settings-dialog details)[open] > summary,
+#troubleshooting-dialog #help-sections details[open] > summary {
+  margin-bottom: 16px;
+  background: linear-gradient(var(--ui-tint-263c20, #263c20), var(--ui-tint-1b2e16, #1b2e16));
+  border-color: var(--ui-tint-60864b, #60864b);
+  box-shadow: inset 0 2px 4px #0008, 0 1px var(--ui-tint-8ca28033, #8ca28033);
+}
+:is(.more-options, .settings-dialog details)[open] > summary::before {
+  content: "−";
+  color: var(--accent2, #c9ecb5);
+  border-color: var(--accent);
+  box-shadow: inset 0 2px 3px #0009, 0 0 5px var(--ui-tint-79b85b22, #79b85b22);
+}
+:is(.more-options, .settings-dialog details) > summary:hover,
+#troubleshooting-dialog #help-sections details > summary:hover {
+  background: linear-gradient(var(--ui-tint-405c36, #405c36), var(--ui-tint-2e4526, #2e4526));
+  border-color: var(--accent, #79b85b);
+}
+:is(.more-options, .settings-dialog details) > summary:focus-visible {
+  outline: 2px solid var(--accent2);
+  outline-offset: 3px;
+}
+/* Existing troubleshooting rules use IDs; keep its outer panels in the same chassis. */
+#troubleshooting-dialog #help-sections details {
+  padding: 8px;
+  border-color: var(--ui-tint-42583c, #42583c);
+  border-radius: var(--disclosure-radius);
+  background: var(--ui-tint-101a12, #101a12);
+  box-shadow: inset 0 2px 5px #0007, 0 1px var(--ui-tint-8ca28022, #8ca28022);
+}
+.settings-dialog details > :not(summary) { margin-left: 8px; margin-right: 8px; }
+@media (max-width: 760px) and (orientation: portrait) {
+  :root { --disclosure-radius: 14px; --disclosure-key-radius: 10px; }
+  :is(.more-options, .settings-dialog details) > summary,
+  #troubleshooting-dialog #help-sections details > summary { min-height: 52px; padding: 14px 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  :is(.more-options, .settings-dialog details) > summary { transition: none; }
+}
+
+/* Touch setup is a primary action, separate from the enable/disable selector. */
+#launcher-touch-settings { display: grid; gap: 14px; padding: 10px 0; }
+#launcher-touch-settings > label { display: grid; grid-template-columns: auto minmax(0,1fr); align-items: center; gap: 12px; }
+#launcher-touch-settings select { min-width: 0; width: 100%; min-height: 42px; padding: 8px 12px; border: 1px solid var(--line); border-radius: 6px; background: #080b0f; color: var(--ink); }
+#launcher-touch-settings > button { display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%; min-height: 50px; padding: 12px 16px; text-align: left; font: inherit; font-weight: 700; line-height: 1.4; color: var(--ink); background: linear-gradient(var(--ui-tint-33442e, #33442e),var(--ui-tint-253421, #253421)); border: 1px solid var(--accent); border-radius: 7px; box-shadow: inset 0 1px var(--ui-tint-8ea58166, #8ea58166),0 3px 0 var(--button-edge, #0b1409); cursor: pointer; }
+#launcher-touch-settings > button::after { content: '\2192'; flex: none; font-size: 20px; color: var(--accent2); }
+#launcher-touch-settings > button:hover { filter: brightness(1.15); }
+#launcher-touch-settings > button:active { transform: translateY(1px); }
+#launcher-touch-settings > button:focus-visible { outline: 3px solid var(--accent2); outline-offset: 3px; }
+#launcher-touch-settings > .detail { margin: 0; }

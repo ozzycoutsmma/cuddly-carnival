@@ -1,0 +1,13 @@
+dialog[data-dialog-dock]{max-height:min(85dvh,calc(100dvh - 112px))}
+dialog[data-dialog-dock] .dialog-close-dock{position:fixed;z-index:100;display:grid;place-items:center;box-sizing:border-box;width:48px;height:48px;min-height:48px;margin:0;padding:0;border:1px solid var(--ui-tint-91c47a, #91c47a);border-radius:10px;background:var(--ui-tint-294522, #294522);color:var(--ui-tint-f5fff0, #f5fff0);font:700 27px/1 system-ui;cursor:pointer;box-shadow:0 6px 24px #0007}
+dialog[data-dialog-dock] .dialog-close-dock:hover{background:var(--ui-tint-3b6030, #3b6030)}
+dialog[data-dialog-dock] .dialog-close-dock:focus-visible{outline:3px solid var(--ui-tint-d2f0bc, #d2f0bc);outline-offset:3px}
+dialog[data-dialog-dock] .dialog-close-dock:disabled{opacity:.45;cursor:default}
+
+/* Narrow portrait screens: a reachable close button below the scrolling menu. */
+.dialog-close-label{display:none}
+@media(max-width:600px) and (orientation:portrait){
+  dialog[open][data-dialog-dock]{position:fixed;top:calc(12px + env(safe-area-inset-top,0px));bottom:auto;margin:0 auto;max-height:calc(100dvh - 100px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px));max-width:calc(100% - 24px);overflow:auto;overscroll-behavior:contain}
+  dialog[data-dialog-dock] .dialog-close-dock{top:auto!important;left:calc(12px + env(safe-area-inset-left,0px))!important;right:calc(12px + env(safe-area-inset-right,0px));bottom:calc(12px + env(safe-area-inset-bottom,0px));width:auto;height:52px;min-height:52px;display:flex;align-items:center;justify-content:center;gap:8px;font-size:26px;touch-action:manipulation}
+  .dialog-close-dock .dialog-close-label{display:inline;font:700 16px/1.2 system-ui}
+}
